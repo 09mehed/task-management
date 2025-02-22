@@ -6,7 +6,7 @@ import Swal from 'sweetalert2';
 
 // Fetch tasks from the server
 const fetchTasks = async () => {
-    const response = await fetch('http://localhost:3000/tasks');
+    const response = await fetch('https://task-management-server-seven-wine.vercel.app/tasks');
     if (!response.ok) {
         throw new Error('Failed to fetch tasks');
     }
@@ -15,7 +15,7 @@ const fetchTasks = async () => {
 
 // Delete task from server
 const deleteTask = async (taskId) => {
-    const response = await fetch(`http://localhost:3000/tasks/${taskId}`, {
+    const response = await fetch(`https://task-management-server-seven-wine.vercel.app/tasks/${taskId}`, {
         method: 'DELETE',
     });
     if (!response.ok) {

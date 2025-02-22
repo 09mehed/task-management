@@ -21,7 +21,7 @@ const AuthProvider = ({children}) => {
             setUser(loggedInUser);
 
             // Store user in database
-            await axios.post("http://localhost:3000/users", {
+            await axios.post("https://task-management-server-seven-wine.vercel.app/users", {
                 id: loggedInUser.id,
                 email: loggedInUser.email,
                 displayName: loggedInUser.displayName,

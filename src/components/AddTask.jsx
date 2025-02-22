@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 
 const addTask = async (newTask) => {
-    const response = await fetch("http://localhost:3000/tasks", {
+    const response = await fetch("https://task-management-server-seven-wine.vercel.app/tasks", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
