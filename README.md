@@ -15,3 +15,11 @@ This project uses the following dependencies:
 - `react-router-dom`: Declarative routing for React
 - `react-icons`: A library for using icons in React applications
 - `axios` (if you use it for requests): Promise-based HTTP client for making API requests
+
+## Technologies Used
+
+- **React**: A JavaScript library for building user interfaces
+- **React Query**: A library for fetching, caching, and syncing server data
+- **React Router**: Declarative routing for React
+- **Tailwind CSS**: A utility-first CSS framework for creating fast and responsive designs
+- **Axios**: A promise-based HTTP client for making API requests
