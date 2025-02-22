@@ -1,8 +1,17 @@
-# React + Vite
+# Task Management App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Short Description
+A task management application that allows users to manage tasks across different categories: To Do, In Progress, and Done. Users can add, edit, and delete tasks using an intuitive interface.
 
-Currently, two official plugins are available:
+## Live Links
+- [Live Demo](http://your-live-link.com) (Replace this with the actual live link to your application)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Dependencies
+This project uses the following dependencies:
+
+- `react`: A JavaScript library for building user interfaces
+- `react-dom`: Provides DOM-specific methods that can be used with React
+- `react-query`: A library for fetching, caching, and syncing server data
+- `react-router-dom`: Declarative routing for React
+- `react-icons`: A library for using icons in React applications
+- `axios` (if you use it for requests): Promise-based HTTP client for making API requests
