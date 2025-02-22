@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { FaEllipsisV } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 // Fetch tasks from the server
 const fetchTasks = async () => {
@@ -24,7 +25,7 @@ const deleteTask = async (taskId) => {
 };
 
 const ListCategory = () => {
-    const { data: tasks, isLoading, error } = useQuery({
+    const { data: tasks, isLoading, error, refetch } = useQuery({
         queryKey: ['tasks'],
         queryFn: fetchTasks,
     });
@@ -32,28 +33,31 @@ const ListCategory = () => {
     const [showMenu, setShowMenu] = useState(null);
 
     // Mutation to delete the task
-    const { mutate: mutateDeleteTask } = useMutation(deleteTask, {
-        // Optimistically update the UI to remove the task
-        onMutate: (taskId) => {
-            // Find the category of the task that is being deleted
-            const updatedTasks = {
-                toDoTasks: toDoTasks.filter((task) => task._id !== taskId),
-                inProgressTasks: inProgressTasks.filter((task) => task._id !== taskId),
-                doneTasks: doneTasks.filter((task) => task._id !== taskId),
-            };
-            // Temporarily update the UI for delete
-            setToDoTasks(updatedTasks.toDoTasks);
-            setInProgressTasks(updatedTasks.inProgressTasks);
-            setDoneTasks(updatedTasks.doneTasks);
-        },
-        onError: (error, taskId, context) => {
-            // If the delete fails, restore the tasks to their original state
-            setToDoTasks([...toDoTasks]);
-            setInProgressTasks([...inProgressTasks]);
-            setDoneTasks([...doneTasks]);
-        },
+    const { mutate } = useMutation({
+        mutationFn: deleteTask,
         onSuccess: (taskId) => {
-            // Once the deletion is successful, we don't need to do anything as the task is already removed
+            // After deletion, refetch tasks to update the list
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't to delete now",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Your data is deleted.",
+                    icon: "success"
+                  });
+                }
+              });
+              refetch();
+        },
+        onError: (error) => {
+            console.error("Error deleting task:", error);
         },
     });
 
@@ -66,8 +70,7 @@ const ListCategory = () => {
     const doneTasks = tasks.filter((task) => task.category === 'Done');
 
     const handleDelete = (taskId) => {
-        console.log('Delete task with id:', taskId);
-        mutateDeleteTask(taskId); // Call mutation to delete task
+        mutate(taskId); // Call mutation to delete task
     };
 
     const toggleMenu = (taskId) => {
@@ -125,7 +128,94 @@ const ListCategory = () => {
                         )}
                     </div>
                 </div>
-                {/* Similar sections for "In Progress" and "Done" categories */}
+                <div className='bg-black rounded-lg py-2 px-5'>
+                    <h1 className='text-white font-semibold text-3xl'>To Do</h1>
+                    <div className='my-5 border-2 text-white py-1 rounded-lg'>
+                        {inProgressTasks.length === 0 ? (
+                            <div>
+                                <h1>No Task Here Added</h1>
+                                <p className="text-xs">Drag tasks here or create new ones</p>
+                            </div>
+                        ) : (
+                            <ul>
+                                {inProgressTasks.map((task) => (
+                                    <li key={task._id} className="px-4 py-2 my-2 relative">
+                                        <div
+                                            onClick={() => toggleMenu(task._id)}
+                                            className="absolute top-2 left-72 cursor-pointer"
+                                        >
+                                            <FaEllipsisV className="text-white text-2xl" />
+                                        </div>
+                                        {showMenu === task._id && (
+                                            <div className="absolute top-8 left-56 bg-gray-800 text-white py-2 px-4 rounded-md shadow-lg">
+                                                <Link to={`/task/${task._id}`}>
+                                                    <button
+                                                        className="block mb-2 text-green-600"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </Link>
+                                                <button
+                                                    className="block text-red-600"
+                                                    onClick={() => handleDelete(task._id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                        <h2 className="text-white text-2xl"><span className='font-bold'>Title:</span> {task.title}</h2>
+                                        <p className="text-xl"><span className='font-bold'>Description:</span> {task.description}</p>
+                                        <p className="text-xl"><span className='font-bold'>Time:</span> {task.timestamp}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
+                <div className='bg-black rounded-lg py-2 px-5'>
+                    <h1 className='text-white font-semibold text-3xl'>Done</h1>
+                    <div className='my-5 border-2 text-white py-1 rounded-lg'>
+                        {doneTasks.length === 0 ? (
+                            <div>
+                                <h1>No Task Here Added</h1>
+                                <p className="text-xs">Drag tasks here or create new ones</p>
+                            </div>
+                        ) : (
+                            <ul>
+                                {doneTasks.map((task) => (
+                                    <li key={task._id} className="px-4 py-2 my-2 relative">
+                                        <div
+                                            onClick={() => toggleMenu(task._id)}
+                                            className="absolute top-2 left-72 cursor-pointer"
+                                        >
+                                            <FaEllipsisV className="text-white text-2xl" />
+                                        </div>
+                                        {showMenu === task._id && (
+                                            <div className="absolute top-8 left-56 bg-gray-800 text-white py-2 px-4 rounded-md shadow-lg">
+                                                <Link to={`/task/${task._id}`}>
+                                                    <button
+                                                        className="block mb-2 text-green-600"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </Link>
+                                                <button
+                                                    className="block text-red-600"
+                                                    onClick={() => handleDelete(task._id)}
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
+                                        )}
+                                        <h2 className="text-white text-2xl"><span className='font-bold'>Title:</span> {task.title}</h2>
+                                        <p className="text-xl"><span className='font-bold'>Description:</span> {task.description}</p>
+                                        <p className="text-xl"><span className='font-bold'>Time:</span> {task.timestamp}</p>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                </div>
             </div>
         </div>
     );

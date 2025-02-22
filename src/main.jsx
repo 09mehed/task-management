@@ -12,6 +12,7 @@ import AddTask from './components/AddTask';
 import Layout from './components/Layout';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import UpdatedTask from './components/UpdatedTask';
+import PrivateRoute from './components/PrivateRoute';
 
 // Create a Query Client
 const queryClient = new QueryClient();
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'addTask',
-        element: <AddTask></AddTask>
+        element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
       },
       {
         path: 'task/:id',
