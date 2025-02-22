@@ -129,7 +129,7 @@ const ListCategory = () => {
                     </div>
                 </div>
                 <div className='bg-black rounded-lg py-2 px-5'>
-                    <h1 className='text-white font-semibold text-3xl'>To Do</h1>
+                    <h1 className='text-white font-semibold text-3xl'>In Progress</h1>
                     <div className='my-5 border-2 text-white py-1 rounded-lg'>
                         {inProgressTasks.length === 0 ? (
                             <div>
