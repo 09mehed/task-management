@@ -104,7 +104,7 @@ const ListCategory = () => {
                                         </div>
                                         {showMenu === task._id && (
                                             <div className="absolute top-8 left-56 bg-gray-800 text-white py-2 px-4 rounded-md shadow-lg">
-                                                <Link to={`/task/${task._id}`}>
+                                                <Link to={`/updatedTask/${task._id}`}>
                                                     <button
                                                         className="block mb-2 text-green-600"
                                                     >
@@ -148,7 +148,7 @@ const ListCategory = () => {
                                         </div>
                                         {showMenu === task._id && (
                                             <div className="absolute top-8 left-56 bg-gray-800 text-white py-2 px-4 rounded-md shadow-lg">
-                                                <Link to={`/task/${task._id}`}>
+                                                <Link to={`/updatedTask/${task._id}`}>
                                                     <button
                                                         className="block mb-2 text-green-600"
                                                     >
@@ -192,7 +192,7 @@ const ListCategory = () => {
                                         </div>
                                         {showMenu === task._id && (
                                             <div className="absolute top-8 left-56 bg-gray-800 text-white py-2 px-4 rounded-md shadow-lg">
-                                                <Link to={`/task/${task._id}`}>
+                                                <Link to={`/updatedTask/${task._id}`}>
                                                     <button
                                                         className="block mb-2 text-green-600"
                                                     >

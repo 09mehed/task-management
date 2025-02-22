@@ -35,8 +35,9 @@ const router = createBrowserRouter([
         element: <PrivateRoute><AddTask></AddTask></PrivateRoute>
       },
       {
-        path: 'task/:id',
-        element: <UpdatedTask></UpdatedTask>
+        path: 'updatedTask/:id',
+        element: <UpdatedTask></UpdatedTask>,
+        loader: ({params}) => fetch(`https://task-management-server-seven-wine.vercel.app/tasks/${params.id}`)
       }
     ]
   },
